@@ -150,15 +150,17 @@ export default function Presenter() {
   return (
     <div className="pres">
       <header className="pres-head">
-        <img className="logo" src="/sitecore-logo.svg" alt="Sitecore" />
-        <span className="title">{SESSION_TITLE}</span>
-        {s && s.step !== LOBBY && (
+        <img className="logo" src="/sitecore-advantage-logo.svg" alt="Sitecore Advantage" />
+        <span className="title">Use-case qualification</span>
+        {s && s.step !== LOBBY ? (
           <span className="join">
             <span>
               Vote at <b>{joinUrl.replace(/^https?:\/\//, "")}</b>
             </span>
             {qr && <img src={qr} alt="QR code to join the vote" />}
           </span>
+        ) : (
+          <span className="tag">SitecoreAI™ | Agentic studio</span>
         )}
       </header>
 
@@ -175,7 +177,7 @@ export default function Presenter() {
               }}
             >
               <span className="nm">
-                <i>{i + 1}</i>
+                <span className="badge sm">{i + 1}</span>
                 {l.name}
               </span>
               {v ? <span className={`chip ${v}`}>{RATING_SHORT[v]}</span> : l.hardGate ? <span className="gate">Gate</span> : null}
@@ -261,15 +263,16 @@ function Lobby(props: {
 
   return (
     <div className="lobby">
-      <div className="qr-block">
+      <div className="qr-block card">
         {props.qr ? <img src={props.qr} alt="QR code to join the vote" /> : <div style={{ width: "40vh", height: "40vh" }} />}
         <span className="url">{props.joinUrl.replace(/^https?:\/\//, "")}</span>
       </div>
       <div className="lobby-copy">
-        <p className="eyebrow">Scan to vote · no sign-in</p>
+        <p className="eyebrow">{SESSION_TITLE}</p>
         <h1>Six lenses decide whether a use case goes ahead</h1>
         <p className="sub">
-          We'll test one real idea live. For each lens, vote Pass, Pass with conditions or Fail on your phone.
+          Scan the code to vote on your phone. No sign-in. We'll test one real idea live: for each lens, vote Pass,
+          Pass with conditions or Fail.
         </p>
         <form
           className="field"
@@ -332,18 +335,21 @@ function LensStage(props: {
   return (
     <div className="lens-stage">
       <section className="lens-copy">
+        {props.useCase && (
+          <p className="usecase-line">
+            Qualifying: <b>{props.useCase}</b>
+          </p>
+        )}
+        <div className="lens-title">
+          <span className="badge lg">{props.index + 1}</span>
+          <h1>{l.name}</h1>
+        </div>
         <div className="meta">
           <span className="eyebrow">
             Lens {props.index + 1} of {LENSES.length}
           </span>
           {l.hardGate && <span className="gate">Hard gate</span>}
         </div>
-        {props.useCase && (
-          <p className="usecase-line">
-            Qualifying: <b>{props.useCase}</b>
-          </p>
-        )}
-        <h1>{l.name}</h1>
         <p className="q">{l.question}</p>
         <p className="test">
           <b>Test</b> {l.test}
@@ -354,7 +360,7 @@ function LensStage(props: {
         </p>
       </section>
 
-      <section className="results" aria-live="polite">
+      <section className="results card" aria-live="polite">
         <div className="results-head">
           <span className={`status ${props.open ? "" : "closed"}`}>
             <span className={`dot ${props.open ? "" : "off"}`} />
@@ -464,13 +470,14 @@ function DecisionStage(props: {
     <div className="decision">
       <div className="side">
         <p className="eyebrow">{props.useCase ? `Decision · ${props.useCase}` : "Decision"}</p>
-        <div className="lens-verdicts">
+        <div className="lens-verdicts card">
           {LENSES.map((l, i) => {
             const v = props.verdicts[i];
             return (
               <div key={l.name}>
-                <span>
-                  {i + 1}. {l.name}
+                <span className="lv-name">
+                  <span className="badge sm">{i + 1}</span>
+                  {l.name}
                   {l.hardGate && <span className="gate">Gate</span>}
                 </span>
                 {v ? (
@@ -514,7 +521,7 @@ function Scorecard({ rows, onDelete }: { rows: ScoreRow[]; onDelete: (i: number)
       {rows.length === 0 ? (
         <p className="empty">No use cases saved yet. Finish a decision and save it to add the first row.</p>
       ) : (
-        <div className="table-scroll">
+        <div className="table-scroll card">
           <table className="score">
             <thead>
               <tr>
@@ -610,7 +617,7 @@ function KeyGate({ onSubmit }: { onSubmit: (k: string) => void }) {
           if (v.trim()) onSubmit(v.trim());
         }}
       >
-        <img src="/sitecore-logo.svg" alt="Sitecore" />
+        <img src="/sitecore-advantage-logo.svg" alt="Sitecore Advantage" />
         <h2 style={{ fontSize: 24 }}>Presenter screen</h2>
         <label htmlFor="key">Presenter key</label>
         <input id="key" type="password" value={v} onChange={(e) => setV(e.target.value)} autoFocus />

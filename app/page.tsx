@@ -109,21 +109,23 @@ export default function Audience() {
   return (
     <div className="aud">
       <header className="aud-head">
-        <img src="/sitecore-logo.svg" alt="Sitecore" />
+        <span className="brand">
+          <img src="/sitecore-advantage-logo.svg" alt="Sitecore Advantage" />
+          <span className="brand-title">Use-case qualification</span>
+        </span>
         <span className="live">
           <span className={`dot ${online ? "" : "off"}`} />
           {online ? "Live" : "Reconnecting"}
         </span>
       </header>
-      <div className="aud-band" aria-hidden="true" />
 
       <main className="aud-main">
         {!s && <p className="aud-note">Connecting to the session…</p>}
 
         {s && s.useCase && (
           <div className="aud-usecase">
-            <span>Use case we're qualifying</span>
-            {s.useCase}
+            <span className="label">Use case we're qualifying</span>
+            <span className="field">{s.useCase}</span>
           </div>
         )}
 
@@ -150,7 +152,8 @@ export default function Audience() {
       </main>
 
       <footer className="aud-foot">
-        Your vote is anonymous. Practical AI and agent use-case qualification · Customer Value Realisation
+        <span>Your vote is anonymous.</span>
+        <span>© 2026, Sitecore A/S or a Sitecore affiliated company. All rights reserved.</span>
       </footer>
     </div>
   );
@@ -159,18 +162,18 @@ export default function Audience() {
 function Lobby() {
   return (
     <>
-      <div>
-        <p className="eyebrow">You're in</p>
-        <h1>Voting starts when the presenter opens the first lens</h1>
+      <div className="page-title">
+        <h1>You're in</h1>
+        <p className="intro">Voting starts when the presenter opens the first lens.</p>
       </div>
       <p className="test">
         We'll test one idea against six lenses. For each one, vote <b>Pass</b>, <b>Pass with conditions</b> or{" "}
         <b>Fail</b>. Governance, data and brand safety are hard gates: a Fail on any of them means don't build yet.
       </p>
-      <ul className="lens-list">
+      <ul className="lens-list card">
         {LENSES.map((l, i) => (
           <li key={l.name}>
-            <span className="n">{i + 1}</span>
+            <span className="badge">{i + 1}</span>
             <span className="t">
               <b>{l.name}</b>
               <span>{l.question}</span>
@@ -194,17 +197,20 @@ function LensVote(props: {
   const l = LENSES[props.index];
   return (
     <>
-      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-        <span className="eyebrow">
+      <section className="card lens-card">
+        <div className="lens-card-head">
+          <span className="badge">{props.index + 1}</span>
+          <h1>{l.name}</h1>
+          {l.hardGate && <span className="gate">Hard gate</span>}
+        </div>
+        <p className="q">{l.question}</p>
+        <p className="test">
+          <b>Test</b> {l.test}
+        </p>
+        <p className="of">
           Lens {props.index + 1} of {LENSES.length}
-        </span>
-        {l.hardGate && <span className="gate">Hard gate</span>}
-      </div>
-      <h1>{l.name}</h1>
-      <p className="q">{l.question}</p>
-      <p className="test">
-        <b>Test</b> {l.test}
-      </p>
+        </p>
+      </section>
 
       <div className="vote-buttons" role="group" aria-label={`Your rating for ${l.name}`}>
         {(["pass", "cond", "fail"] as Rating[]).map((r) => (
@@ -247,10 +253,10 @@ function Outcome({ verdicts }: { verdicts: (Rating | null)[] }) {
         <h2>{d.label}</h2>
         <p>{d.reason}</p>
       </div>
-      <ul className="lens-list">
+      <ul className="lens-list card">
         {LENSES.map((l, i) => (
           <li key={l.name}>
-            <span className="n">{i + 1}</span>
+            <span className="badge">{i + 1}</span>
             <span className="t">
               <b>{l.name}</b>
             </span>
