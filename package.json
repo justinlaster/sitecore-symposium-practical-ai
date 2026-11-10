@@ -1,0 +1,26 @@
+{
+  "name": "lens-vote",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live audience voting for the Practical AI and agent use-case qualification session",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@upstash/redis": "1.41.0",
+    "next": "16.4.3",
+    "qrcode": "1.5.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "@types/qrcode": "1.5.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3"
+  }
+}
